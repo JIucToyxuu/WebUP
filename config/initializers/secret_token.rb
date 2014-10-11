@@ -9,4 +9,20 @@
 
 # Make sure your secret_key_base is kept private
 # if you're sharing your code publicly.
-WebUP::Application.config.secret_key_base = '94aec548e5c36897da966088bbc1b9dcb42fc358727dabb232adc4ae97f065cbdd65af5fc7248c494025035455c5c7b475e2c64b3dd8082beb8a75b397748227'
+
+require 'securerandom'
+
+def secure_token
+  token_file = Rails.root.join('.secret')
+  if File.exist?(token_file)
+    # Use the existing token.
+    File.read(token_file).chomp
+  else
+    # Generate a new token and store it in token_file.
+    token = SecureRandom.hex(64)
+    File.write(token_file, token)
+    token
+  end
+end
+
+WebUP::Application.config.secret_key_base = secure_token
