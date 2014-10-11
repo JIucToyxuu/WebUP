@@ -18,4 +18,4 @@
 #Add my ignore file
 database.yml
 doc/
-.secret
+secret_token.rb
